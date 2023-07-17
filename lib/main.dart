@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:starter_app_flutter/core/data/dto/model/environment_config_model.dart';
 
-void main() {
+Future<void> startApp({required EnvironmentConfigModel model}) async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
