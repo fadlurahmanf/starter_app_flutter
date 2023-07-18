@@ -1,10 +1,8 @@
-import 'package:starter_app_flutter/core/data/dto/model/environment_config_model.dart';
+import 'package:starter_app_flutter/core/external/configuration/environment_model.dart';
 import 'package:starter_app_flutter/main.dart';
 
+const _env = ProdEnvironmentModel();
+
 Future<void> main() async {
-  startApp(
-      model: EnvironmentConfigModel(
-    env: 'prod',
-    baseUrl: 'http://api.bankmas.net/',
-  ));
+  startApp(model: _env);
 }
