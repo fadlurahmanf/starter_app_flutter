@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:starter_app_flutter/core/data/di/core_module.dart';
-import 'package:starter_app_flutter/core/external/configuration/base_environment_model.dart';
+import 'package:starter_app_flutter/core/external/configuration/base_environment.dart';
 import 'package:starter_app_flutter/core/feature/navigation/external/navigation_config.dart';
 import 'package:starter_app_flutter/core/feature/navigation/external/navigation_constant.dart';
 
-Future<void> startApp({required BaseEnvironmentModel model}) async {
+Future<void> startApp({required BaseEnvironmentSetting model}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await CoreModule.init(model: model);
   runApp(const MyApp());

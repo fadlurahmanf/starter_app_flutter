@@ -1,13 +1,13 @@
 import 'package:starter_app_flutter/core/domain/common/description.dart';
 
-abstract class BaseEnvironmentModel extends Description {
+abstract class BaseEnvironmentSetting extends Description {
   final String env;
   final String baseUrl;
   final int connectTimeout;
   final int sendTimeout;
   final int receiveTimeout;
 
-  const BaseEnvironmentModel(
+  const BaseEnvironmentSetting(
       {required this.env,
       required this.baseUrl,
       this.connectTimeout = 60 * 1000,

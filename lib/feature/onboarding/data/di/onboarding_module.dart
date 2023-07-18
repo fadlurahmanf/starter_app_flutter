@@ -46,7 +46,7 @@ class OnBoardingModule {
   }
 
   static Future<void> registerDatasource() async {
-    GetIt.I.registerSingleton(() => OnBoardingDataSource(client: GetIt.I<Dio>(instanceName: onBoardingClient)),
+    GetIt.I.registerFactory(() => OnBoardingDataSource(client: GetIt.I<Dio>(instanceName: onBoardingClient)),
         instanceName: onBoardingDataSource);
   }
 
@@ -62,8 +62,8 @@ class OnBoardingModule {
   }
 
   static Future<void> registerInteractor() async {
-    GetIt.I.registerSingleton(() =>
-        VersionInteractor(onBoardingDataSource: GetIt.I<OnBoardingDataSource>(instanceName: onBoardingDataSource)),
+    GetIt.I.registerFactory(() => VersionInteractor(
+        onBoardingDataSource: GetIt.I<OnBoardingDataSource>(instanceName: onBoardingDataSource)),
         instanceName: onBoardingModuleVersionInteractor);
   }
 }

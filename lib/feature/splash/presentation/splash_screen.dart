@@ -11,6 +11,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("MASUK SPLASH");
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => VersionBloc(versionInteractor: GetIt.I<VersionInteractor>()))],
         child: _SplashLayout(
