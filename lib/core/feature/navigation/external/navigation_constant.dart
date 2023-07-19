@@ -2,4 +2,5 @@
 
 class NavigationConstant {
   static const SPLASH = '/splash_screen';
+  static const EXAMPLE_SQFLITE = '/example_sqflite';
 }

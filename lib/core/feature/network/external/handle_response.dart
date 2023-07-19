@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:starter_app_flutter/core/data/dto/exception/response_exception.dart';
+import 'package:starter_app_flutter/core/feature/exception/response_exception.dart';
 
 Future<T> handleResponse<T>({
   required Future<Response<dynamic>> Function() request,

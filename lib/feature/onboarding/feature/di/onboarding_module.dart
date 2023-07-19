@@ -2,16 +2,12 @@
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:starter_app_flutter/core/feature/di/external/constant.dart';
 import 'package:starter_app_flutter/core/feature/network/external/dio_config.dart';
 import 'package:starter_app_flutter/feature/onboarding/domain/datasource/onboarding_datasource.dart';
 import 'package:starter_app_flutter/feature/onboarding/domain/interactor/version_interactor.dart';
 
 class OnBoardingModule {
-  static const onBoardingClient = 'onBoardingClient';
-
-  static const onBoardingDataSource = 'onBoardingDataSource';
-
-  static const onBoardingModuleVersionInteractor = 'onBoardingModule.VersionInteractor';
 
   static Future<void> init() async {
     await loadClient();
@@ -25,13 +21,16 @@ class OnBoardingModule {
   }
 
   static Future<void> unRegisterClient() async {
-    if (GetIt.I.isRegistered<Dio>(instanceName: onBoardingClient)) {
-      GetIt.I.unregister<Dio>(instanceName: onBoardingClient);
+    if (GetIt.I.isRegistered<Dio>(instanceName: DiConstant.onBoardingClient)) {
+      GetIt.I.unregister<Dio>(instanceName: DiConstant.onBoardingClient);
     }
   }
 
   static Future<void> registerClient() async {
-    GetIt.I.registerSingleton(() => DioConfig.getClient(interceptors: []), instanceName: onBoardingClient);
+    GetIt.I.registerSingleton<Dio>(
+      await DioConfig.getClient(interceptors: [], options: await DioConfig.getOOBOptions()),
+      instanceName: DiConstant.onBoardingClient,
+    );
   }
 
   static Future<void> loadDataSource() async {
@@ -40,14 +39,15 @@ class OnBoardingModule {
   }
 
   static Future<void> unRegisterDatasource() async {
-    if (GetIt.I.isRegistered<OnBoardingDataSource>(instanceName: onBoardingDataSource)) {
-      GetIt.I.unregister<OnBoardingDataSource>(instanceName: onBoardingDataSource);
+    if (GetIt.I.isRegistered<OnBoardingDataSource>()) {
+      GetIt.I.unregister<OnBoardingDataSource>();
     }
   }
 
   static Future<void> registerDatasource() async {
-    GetIt.I.registerFactory(() => OnBoardingDataSource(client: GetIt.I<Dio>(instanceName: onBoardingClient)),
-        instanceName: onBoardingDataSource);
+    GetIt.I.registerFactory<OnBoardingDataSource>(() => OnBoardingDataSource(
+          client: GetIt.I<Dio>(instanceName: DiConstant.onBoardingClient),
+        ));
   }
 
   static Future<void> loadInteractor() async {
@@ -56,14 +56,14 @@ class OnBoardingModule {
   }
 
   static Future<void> unRegisterInteractor() async {
-    if (GetIt.I.isRegistered<VersionInteractor>(instanceName: onBoardingModuleVersionInteractor)) {
-      GetIt.I.unregister<VersionInteractor>(instanceName: onBoardingModuleVersionInteractor);
+    if (GetIt.I.isRegistered<VersionInteractor>()) {
+      GetIt.I.unregister<VersionInteractor>();
     }
   }
 
   static Future<void> registerInteractor() async {
     GetIt.I.registerFactory(() => VersionInteractor(
-        onBoardingDataSource: GetIt.I<OnBoardingDataSource>(instanceName: onBoardingDataSource)),
-        instanceName: onBoardingModuleVersionInteractor);
+          onBoardingDataSource: GetIt.I<OnBoardingDataSource>(),
+        ));
   }
 }

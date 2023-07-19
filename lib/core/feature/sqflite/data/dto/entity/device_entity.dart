@@ -10,4 +10,7 @@ class DeviceEntity with _$DeviceEntity {
   }) = _DeviceEntity;
 
   factory DeviceEntity.fromJson(Map<String, dynamic> json) => _$DeviceEntityFromJson(json);
+
+  static const String table = 'device';
+  static const String cDeviceId = 'deviceId';
 }

@@ -6,7 +6,8 @@ part 'check_version_response.freezed.dart';
 @freezed
 class CheckVersionResponse with _$CheckVersionResponse {
   const factory CheckVersionResponse({
-    int? minimumVersion,
+    @JsonKey(name: 'minVersion')
+    String? minimumVersion,
     int? latestVersion,
   }) = _CheckVersionReponse;
 

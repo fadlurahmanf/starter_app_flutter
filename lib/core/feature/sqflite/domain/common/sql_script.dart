@@ -1,4 +1,4 @@
-import 'package:starter_app_flutter/core/domain/common/description.dart';
+import 'package:starter_app_flutter/core/domain/common/base_description.dart';
 
 class SQLScript extends Description {
   final String script;

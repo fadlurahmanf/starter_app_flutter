@@ -6,10 +6,12 @@ class TranslationMessage extends Translations {
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {
     'en': {
-      TranslationConstant.OOPS: 'Oops...'
+      TranslationConstant.OOPS: 'Oops...',
+      TranslationConstant.EXCEPTION_GENERAL: 'EXCEPTION GENERAL ENGLISH'
     },
     'id': {
-      TranslationConstant.OOPS: 'Ups...'
+      TranslationConstant.OOPS: 'Ups...',
+      TranslationConstant.EXCEPTION_GENERAL: 'EXCEPTION GENERAL INDO',
     }
   };
 
