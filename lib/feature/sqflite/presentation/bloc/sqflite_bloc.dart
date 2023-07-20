@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:starter_app_flutter/core/domain/interactor/device_interactor.dart';
 import 'package:starter_app_flutter/core/external/extension/object.dart';
-import 'package:starter_app_flutter/core/feature/exception/custom_exception.dart';
-import 'package:starter_app_flutter/core/feature/sqflite/data/dto/entity/device_entity.dart';
+import 'package:starter_app_flutter/core/feature/exception/app_exception.dart';
+import 'package:starter_app_flutter/core/feature/sqflite/device/data/dto/entity/device_entity.dart';
 
 part 'sqflite_bloc.freezed.dart';
 
@@ -31,7 +31,7 @@ class SqfliteBloc extends Bloc<SqfliteEvent, SqfliteState> {
       await deviceInteractor.insertOrUpdateDeviceIdIfExist();
       emit(const SqfliteState.iLoading());
     } catch (e) {
-      emit(SqfliteState.iFailed(exception: e.toCustomException()));
+      emit(SqfliteState.iFailed(exception: e.toAppException()));
     }
   }
 
@@ -39,14 +39,9 @@ class SqfliteBloc extends Bloc<SqfliteEvent, SqfliteState> {
     try {
       emit(const SqfliteState.idle());
       emit(const SqfliteState.iLoading());
-      final res = await deviceInteractor.getAll();
-      if (res.isRight) {
-        emit(res.right);
-      } else {
-        emit(SqfliteState.gFailed(exception: res.left));
-      }
+      emit(SqfliteState.gSuccess(devices: await deviceInteractor.getAll()));
     } catch (e) {
-      emit(SqfliteState.gFailed(exception: e.toCustomException()));
+      emit(SqfliteState.gFailed(exception: e.toAppException()));
     }
   }
 }

@@ -5,19 +5,20 @@ import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:starter_app_flutter/core/external/app_utility.dart';
 import 'package:starter_app_flutter/core/external/configuration/base_environment.dart';
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 
 class DioConfig {
   static Future<Dio> getClient({required List<Interceptor> interceptors, required BaseOptions options}) async {
     final dio = Dio();
     dio.options = options;
+    dio.interceptors.add(CurlLoggerDioInterceptor());
     dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
         responseBody: true,
         responseHeader: false,
         error: true,
-        compact: true,
-        maxWidth: 90));
+        compact: true,));
     if (GetIt.I<EnvironmentSetting>().useAlice == true) {
       dio.interceptors.add(AppGlobal.alice.getDioInterceptor());
     }

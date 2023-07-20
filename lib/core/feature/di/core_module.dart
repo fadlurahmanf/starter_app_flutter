@@ -3,8 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:starter_app_flutter/core/domain/interactor/device_interactor.dart';
 import 'package:starter_app_flutter/core/external/configuration/base_environment.dart';
 import 'package:starter_app_flutter/core/feature/di/external/constant.dart';
-import 'package:starter_app_flutter/core/feature/sqflite/data/external/sqflite_config.dart';
-import 'package:starter_app_flutter/core/feature/sqflite/domain/datasource/device_entity_datasource.dart';
+import 'package:starter_app_flutter/core/feature/sqflite/device/data/external/sqflite_config.dart';
+import 'package:starter_app_flutter/core/feature/sqflite/device/domain/datasource/device_entity_datasource.dart';
 import 'package:starter_app_flutter/feature/onboarding/feature/di/onboarding_module.dart';
 
 class CoreModule {

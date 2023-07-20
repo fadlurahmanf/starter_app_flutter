@@ -43,17 +43,11 @@ class _ExampleSqfliteLayoutState extends State<_ExampleSqfliteLayout> {
         listeners: [
           BlocListener<SqfliteBloc, SqfliteState>(listener: (context, state) {
             state.mapOrNull(
-                idle: (state) {},
-                iLoading: (state) {
-                  print('mask state loading');
-                },
-                iSuccess: (state) {
-                  print('masuk state success');
-                },
+
                 gSuccess: (state) {
-                  state.devices.forEach((element) {
+                  for (var element in state.devices) {
                     print('masuk ${element.toJson()}');
-                  });
+                  }
                 });
           })
         ],

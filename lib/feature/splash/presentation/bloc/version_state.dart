@@ -5,10 +5,9 @@ class VersionState with _$VersionState {
   const factory VersionState.idle() = _Idle;
   const factory VersionState.loading() = _Loading;
   const factory VersionState.success({
-    bool? updateAvailable,
-    bool? forceUpdate,
+    required VersionModel versionModel,
   }) = _Success;
   const factory VersionState.failed({
-    CustomException? exception,
+    AppException? exception,
   }) = _Failed;
 }

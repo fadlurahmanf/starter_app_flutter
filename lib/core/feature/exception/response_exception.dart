@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:starter_app_flutter/core/external/constant/app_constant.dart';
 import 'package:starter_app_flutter/core/feature/exception/base_exception.dart';
-import 'package:starter_app_flutter/core/feature/exception/custom_exception.dart';
+import 'package:starter_app_flutter/core/feature/exception/app_exception.dart';
 import 'package:starter_app_flutter/core/feature/translation/translation_constant.dart';
 
 class ResponseException extends BaseException {
@@ -36,30 +36,29 @@ class ResponseException extends BaseException {
     }
   }
 
-  static CustomException? getCustomException(DioException exception) {
+  static AppException? getCustomException(DioException exception) {
     if (exception.response?.statusCode == 500) {
-      return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.INTERNAL_SERVER_ERROR);
+      return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.INTERNAL_SERVER_ERROR);
     } else if (exception.type == DioExceptionType.connectionTimeout) {
-      return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.CONNECT_TIMEOUT);
+      return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.CONNECT_TIMEOUT);
     } else if (exception.type == DioExceptionType.sendTimeout) {
-      return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.SEND_TIMEOUT);
+      return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.SEND_TIMEOUT);
     } else if (exception.type == DioExceptionType.receiveTimeout) {
-      return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.RECEIVE_TIMEOUT);
+      return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.RECEIVE_TIMEOUT);
     } else if (exception.type == DioExceptionType.badResponse) {
       final data = exception.response?.data;
       if (data is Map<String, dynamic> && data.containsKey('message')) {
-        return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: data['message']);
+        return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: data['message']);
       } else if (exception.response?.statusCode == 404) {
-        return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.ERR_NOT_FOUND);
+        return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.ERR_NOT_FOUND);
       } else if (exception.response?.statusCode == 504) {
-        return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.RECEIVE_TIMEOUT);
+        return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.RECEIVE_TIMEOUT);
       } else if (exception.response?.statusCode == 500) {
-        return CustomException(
-            rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.INTERNAL_SERVER_ERROR);
+        return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.INTERNAL_SERVER_ERROR);
       }
     } else if (exception.type == DioExceptionType.unknown) {
       if (exception.error is SocketException) {
-        return CustomException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.OFFLINE);
+        return AppException(rawTitleMessage: TranslationConstant.OOPS, rawMessage: AppConstant.OFFLINE);
       }
     }
     return null;
@@ -89,5 +88,9 @@ class ResponseException extends BaseException {
       'message': message,
       'additionalData': additionalData,
     };
+  }
+
+  AppException toAppException() {
+    return AppException.fromResponseException(this);
   }
 }

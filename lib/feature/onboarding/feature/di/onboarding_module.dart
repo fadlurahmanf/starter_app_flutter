@@ -3,7 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:starter_app_flutter/core/feature/di/external/constant.dart';
-import 'package:starter_app_flutter/core/feature/network/external/dio_config.dart';
+import 'package:starter_app_flutter/core/feature/network/dio_config.dart';
 import 'package:starter_app_flutter/feature/onboarding/domain/datasource/onboarding_datasource.dart';
 import 'package:starter_app_flutter/feature/onboarding/domain/interactor/version_interactor.dart';
 

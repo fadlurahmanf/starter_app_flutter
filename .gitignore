@@ -46,5 +46,6 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 
+restart.sh
 generate_response.sh
 .fvm/

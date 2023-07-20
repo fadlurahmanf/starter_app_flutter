@@ -29,7 +29,7 @@ class _ExampleLayoutState extends State<_ExampleLayout> {
               onPressed: () async {
 
               },
-              child: Text('data'),
+              child: const Text('data'),
           )
         ],
       ),

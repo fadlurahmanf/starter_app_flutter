@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:either_dart/either.dart';
-import 'package:starter_app_flutter/core/external/extension/object.dart';
-import 'package:starter_app_flutter/core/feature/exception/custom_exception.dart';
-import 'package:starter_app_flutter/core/feature/sqflite/data/dto/entity/device_entity.dart';
-import 'package:starter_app_flutter/core/feature/sqflite/domain/datasource/device_entity_datasource.dart';
-import 'package:starter_app_flutter/feature/sqflite/presentation/bloc/sqflite_bloc.dart';
+import 'package:starter_app_flutter/core/feature/exception/app_exception.dart';
+import 'package:starter_app_flutter/core/feature/sqflite/device/data/dto/entity/device_entity.dart';
+import 'package:starter_app_flutter/core/feature/sqflite/device/domain/datasource/device_entity_datasource.dart';
 
 class DeviceInteractor {
   DeviceEntityDatasource deviceEntityDatasource;
@@ -17,34 +14,50 @@ class DeviceInteractor {
     required this.deviceInfo,
   });
 
-  Future<Either<CustomException, SqfliteState>> insertOrUpdateDeviceIdIfExist() async {
-    try {
-      String? id;
-      if (Platform.isAndroid) {
-        id = (await deviceInfo.androidInfo).id;
-      } else if (Platform.isIOS) {
-        id = (await deviceInfo.iosInfo).identifierForVendor;
-      }
-      if (id == null) {
-        throw CustomException(message: 'REQUIRED DEVICE ID');
-      }
-      final entity = await deviceEntityDatasource.findById(deviceId: id);
-      if (entity == null) {
-        await deviceEntityDatasource.insert(DeviceEntity(deviceId: id));
-      } else {
-        await deviceEntityDatasource.update(DeviceEntity(deviceId: id));
-      }
-      return const Right(SqfliteState.iSuccess());
-    } catch (e) {
-      return Left(e.toCustomException());
+  Future<String> getDeviceId() async {
+    String? id;
+    if (Platform.isAndroid) {
+      id = (await deviceInfo.androidInfo).id;
+    } else if (Platform.isIOS) {
+      id = (await deviceInfo.iosInfo).identifierForVendor;
+    }
+    if (id == null) {
+      throw AppException(message: 'REQUIRED DEVICE ID');
+    }
+    return id;
+  }
+
+  Future<void> insertOrUpdateDeviceIdIfExist() async {
+    String id = await getDeviceId();
+    final entity = await deviceEntityDatasource.findById(deviceId: id);
+    if (entity == null) {
+      await deviceEntityDatasource.insert(DeviceEntity(deviceId: id));
+    } else {
+      await deviceEntityDatasource.update(DeviceEntity(deviceId: id, createdAt: DateTime.now().toString()));
     }
   }
 
-  Future<Either<CustomException, SqfliteState>> getAll() async {
-    try {
-      return Right(SqfliteState.gSuccess(devices: await deviceEntityDatasource.findAll()));
-    } catch (e) {
-      return Left(e.toCustomException());
+  Future<void> updateLanguageCode(String languageCode) async {
+    String id = await getDeviceId();
+    final entity = await deviceEntityDatasource.findById(deviceId: id);
+    if (entity != null) {
+      await deviceEntityDatasource.update(DeviceEntity(deviceId: id, languageCode: languageCode));
+      return;
+    } else {
+      throw AppException(message: 'DEVICE ENTITY NOT FOUND');
+    }
+  }
+
+  Future<List<DeviceEntity>> getAll() {
+    return deviceEntityDatasource.findAll();
+  }
+
+  Future<DeviceEntity> getDeviceEntity() async {
+    final list = await getAll();
+    if (list.isNotEmpty) {
+      return list.first;
+    } else {
+      throw AppException(message: 'DEVICE ENTITY NOT FOUND');
     }
   }
 }

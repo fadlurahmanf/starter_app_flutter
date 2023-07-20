@@ -5,7 +5,7 @@ import 'package:starter_app_flutter/core/domain/interactor/device_interactor.dar
 import 'package:starter_app_flutter/core/external/app_utility.dart';
 import 'package:starter_app_flutter/core/external/configuration/base_environment.dart';
 import 'package:starter_app_flutter/core/feature/di/core_module.dart';
-import 'package:starter_app_flutter/core/feature/navigation/external/navigation_config.dart';
+import 'package:starter_app_flutter/core/feature/navigation/navigation_config.dart';
 import 'package:starter_app_flutter/core/feature/navigation/external/navigation_constant.dart';
 import 'package:starter_app_flutter/core/feature/translation/translation.dart';
 
@@ -33,9 +33,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _initLocale() async {
     await GetIt.I<DeviceInteractor>().insertOrUpdateDeviceIdIfExist();
-    await Get.updateLocale(const Locale('id', 'ID')).then((value) {
-      _locale = const Locale('id', 'ID');
-    });
+    await GetIt.I<DeviceInteractor>().updateLanguageCode('id');
   }
 
   @override

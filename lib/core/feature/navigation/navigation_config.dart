@@ -15,6 +15,7 @@ class NavigationConfig {
     BuildContext context,
   ) {
     return {
+      // TODO(DEVELOPER): ADD SCREEN HERE
       NavigationConstant.SPLASH: (context) => const SplashScreen(),
       NavigationConstant.EXAMPLE_SQFLITE: (context) => const ExampleSqfliteScreen(),
     };

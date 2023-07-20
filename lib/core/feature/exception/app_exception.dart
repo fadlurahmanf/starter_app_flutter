@@ -4,11 +4,11 @@ import 'package:starter_app_flutter/core/feature/exception/response_exception.da
 import 'package:starter_app_flutter/core/feature/translation/translation.dart';
 import 'package:starter_app_flutter/core/feature/translation/translation_constant.dart';
 
-class CustomException extends BaseException {
-  CustomException({super.rawTitleMessage, super.titleMessage, super.rawMessage, super.message, super.additionalData});
+class AppException extends BaseException {
+  AppException({super.rawTitleMessage, super.titleMessage, super.rawMessage, super.message, super.additionalData});
 
   static fromResponseException(ResponseException e) {
-    return CustomException(
+    return AppException(
         rawTitleMessage: e.rawTitleMessage,
         titleMessage: e.titleMessage,
         rawMessage: e.rawMessage,
@@ -16,8 +16,8 @@ class CustomException extends BaseException {
         additionalData: e.additionalData);
   }
 
-  CustomException getProperCustomException() {
-    return CustomException(
+  AppException getProperCustomException() {
+    return AppException(
         rawTitleMessage: rawTitleMessage,
         titleMessage: getTitleMessage(),
         rawMessage: rawMessage,

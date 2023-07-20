@@ -1,14 +1,14 @@
-import 'package:starter_app_flutter/core/feature/exception/custom_exception.dart';
+import 'package:starter_app_flutter/core/feature/exception/app_exception.dart';
 import 'package:starter_app_flutter/core/feature/exception/response_exception.dart';
 
 extension ObjectX on Object {
-  CustomException toCustomException() {
-    if (this is CustomException) {
-      return this as CustomException;
+  AppException toAppException() {
+    if (this is AppException) {
+      return this as AppException;
     } else if (this is ResponseException) {
-      return CustomException.fromResponseException((this as ResponseException));
+      return AppException.fromResponseException((this as ResponseException));
     } else {
-      return CustomException(rawMessage: toString());
+      return AppException(rawMessage: toString());
     }
   }
 }
